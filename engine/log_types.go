@@ -11,8 +11,9 @@ var (
 	ErrUnkNameConv = fmt.Errorf("unknown name convension")
 
 	logTypes = map[string]*LogType{
-		"kunai":  &TypeKunai,
-		"winevt": &TypeWinevt,
+		"kunai":    &TypeKunai,
+		"winevt":   &TypeWinevt,
+		"maltrace": &TypeMaltrace,
 	}
 )
 
@@ -56,4 +57,45 @@ var (
 		GeneInfo:      Path("/gene_info"),
 		Timestamp:     Path("/info/utc_time"),
 	}
+)
+
+// Maltrace's Event Format
+var (
+	TypeMaltrace = LogType{
+		FieldNameConv: SnakeCase,
+		Data:          Path("/process"),
+		Source:        Path("/event_type"),
+		EventID:       Path("/event_id"),
+		Hostname:      Path("/event_id"),
+		Timestamp:     Path("/timestamp"),
+	}
+	// {
+	// 	"event_id": 7019535073598018000,
+	// 	"event_type": "syscall",
+	// 	"process": {
+	// 	  "filename": "/etc/localtime",
+	// 	  "flags": [
+	// 		"O_RDONLY"
+	// 	  ],
+	// 	  "mode": 0,
+	// 	  "parent_pid": 14329,
+	// 	  "pid": 17367
+	// 	},
+	// 	"syscall_name": "openat",
+	// 	"timestamp": "0001-01-01T00:00:00Z"
+	//   },
+	// {
+	// 	"event_id": 7607674595460999000,
+	// 	"event_type": "syscall",
+	// 	"process": {
+	// 	  "cmdline": "maltrace /usr/bin/ls",
+	// 	  "filename": "/usr/bin/ls",
+	// 	  "hash": "7987cf330ff5bb94015dfbb9eae5a99f",
+	// 	  "parent_pid": 17373,
+	// 	  "pid": 17377
+	// 	},
+	// 	"syscall_name": "execve",
+	// 	"timestamp": "2025-05-17T12:12:36.67788862-04:00"
+	//   },
+
 )

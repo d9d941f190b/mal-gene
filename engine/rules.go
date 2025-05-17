@@ -241,6 +241,11 @@ func (jr *Rule) resolveLogType(logTypes map[string]*LogType) *LogType {
 		return logTypes["kunai"]
 	}
 
+	// if we wanna match ONLY maltrace events
+	if _, ok := jr.Meta.Events["maltrace"]; ok && len(jr.Meta.Events) == 1 {
+		return logTypes["maltrace"]
+	}
+
 	// based on windows channels frequently matched
 	winMatch := 0
 	for c := range jr.Meta.Events {
